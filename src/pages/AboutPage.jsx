@@ -126,7 +126,7 @@ export default function AboutPage({ setActivePage }) {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono mb-3">
             <Award className="w-3.5 h-3.5 text-amber-400" />
-            <span>SMART INDIA HACKATHON (SIH 2026) GRAND FINALE PROJECT</span>
+            <span>NATIONAL GEOTECHNICAL DISASTER MITIGATION PLATFORM</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
             About LandslideGuard AI 🌄
@@ -144,7 +144,7 @@ export default function AboutPage({ setActivePage }) {
           className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-sm shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all cursor-pointer self-start md:self-auto"
         >
           <Presentation className="w-4 h-4" />
-          <span>Launch SIH 2026 Pitch Deck</span>
+          <span>Open Project Presentation</span>
         </button>
       </div>
 
@@ -263,7 +263,7 @@ export default function AboutPage({ setActivePage }) {
       <div className="p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-[#0a152e] to-slate-900 border border-cyan-500/40 flex flex-col md:flex-row items-center justify-between gap-6 text-left">
         <div className="space-y-2">
           <h3 className="text-xl sm:text-2xl font-black text-white">
-            Ready for Live SIH 2026 Evaluation
+            Ready for Live System Evaluation
           </h3>
           <p className="text-xs text-slate-300 max-w-xl">
             Test the live interactive GIS map, run real-time environmental simulations in the AI sandbox, or test emergency broadcast sirens.

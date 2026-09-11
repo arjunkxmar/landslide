@@ -541,7 +541,7 @@ export default function CitizenReportPage() {
 
                 {/* Bottom Timestamp Watermark */}
                 <div className="flex justify-between text-[10px] font-mono text-slate-400 bg-black/60 p-1.5 rounded border border-slate-800">
-                  <span>WATERMARK: NDMA-SIH2026-GEO</span>
+                  <span>WATERMARK: NDMA-GEO-VERIFIED</span>
                   <span>{new Date().toLocaleTimeString()} IST</span>
                 </div>
               </div>

@@ -18,85 +18,85 @@ export default function FeaturesGrid({ setActivePage }) {
   const features = [
     {
       page: 'map',
-      title: 'Interactive GIS Risk Map',
-      badge: 'Live Geospatial Engine',
-      description: 'Explore multi-layer interactive maps with real-time hazard markers, station telemetries, and danger zones across Himalayan and Western Ghats corridors.',
+      title: 'Interactive Live Map',
+      badge: 'Visual Map',
+      description: 'View mountains across India with clear color pins: Green for safe areas and Red for high danger zones.',
       icon: Compass,
       color: 'from-cyan-500 to-blue-600',
       textColor: 'text-cyan-400',
       borderColor: 'hover:border-cyan-500/50',
-      actionText: 'Explore GIS Map'
+      actionText: 'Open Live Map'
     },
     {
       page: 'prediction',
-      title: 'AI Risk Prediction Engine',
-      badge: 'Interactive Simulator',
-      description: 'Run environmental simulations with rainfall intensity, slope angles, soil saturation %, and historical landslide baselines to compute real-time hazard scores.',
+      title: 'AI Risk Simulator',
+      badge: 'Try Sliders',
+      description: 'Test what happens during heavy rain: adjust the rainfall and hill angle sliders to calculate the risk score.',
       icon: Sparkles,
       color: 'from-purple-500 to-indigo-600',
       textColor: 'text-purple-400',
       borderColor: 'hover:border-purple-500/50',
-      actionText: 'Test AI Simulator'
+      actionText: 'Test Simulator'
     },
     {
       page: 'dashboard',
-      title: 'Real-Time Telemetry Dashboard',
-      badge: 'IoT Sensor Mesh',
-      description: 'Continuous monitoring of pore water pressure, soil volumetric water content, acoustic rockfall emissions, and tipping bucket precipitation counters.',
+      title: 'Sensor Dashboard',
+      badge: 'Live Data',
+      description: 'Check live numbers from mountain stations: see current rainfall, temperature, soil moisture, and ground stability.',
       icon: BarChart3,
       color: 'from-emerald-500 to-teal-600',
       textColor: 'text-emerald-400',
       borderColor: 'hover:border-emerald-500/50',
-      actionText: 'View Telemetry Feeds'
+      actionText: 'View Stations'
     },
     {
       page: 'alerts',
-      title: 'Early Warning & CAP Dispatch',
-      badge: 'Emergency Command',
-      description: 'Standardized Common Alerting Protocol (CAP-India) broadcast dispatch to District Emergency Operation Centers, NDRF battalions, and municipal sirens.',
+      title: 'Disaster Alerts',
+      badge: 'Early Warnings',
+      description: 'Sends fast siren alerts and evacuation notices to villagers and authorities before soil starts sliding.',
       icon: AlertTriangle,
       color: 'from-rose-500 to-red-600',
       textColor: 'text-rose-400',
       borderColor: 'hover:border-rose-500/50',
-      actionText: 'Open Alert Center'
+      actionText: 'Check Alerts'
     },
     {
       page: 'report',
-      title: 'Citizen Incident Reporting',
-      badge: 'Crowdsourced Intelligence',
-      description: 'Empowers field rangers and residents to submit ground crack sightings, falling rock notices, and road slips with auto-GPS coordinates and photo verification.',
+      title: 'Citizen Photo Report',
+      badge: 'Community Help',
+      description: 'Anyone can snap a photo of a road crack or fallen rock to instantly report it with GPS location.',
       icon: Camera,
       color: 'from-amber-500 to-orange-600',
       textColor: 'text-amber-400',
       borderColor: 'hover:border-amber-500/50',
-      actionText: 'Report an Incident'
+      actionText: 'Submit Report'
     },
     {
       page: 'roads',
-      title: 'Mountain Road Transit Monitor',
-      badge: 'Smart Arterial Routing',
-      description: 'Monitors vital ghat highways (NH-10, NH-58, SH-4), flags road collapses, and provides dynamic alternative bypass routes with travel time penalties.',
+      title: 'Mountain Road Status',
+      badge: 'Highway Watch',
+      description: 'Check whether ghat mountain highways are open, slow, or blocked by mudslides with safe bypass routes.',
       icon: Route,
       color: 'from-sky-500 to-cyan-600',
       textColor: 'text-sky-400',
       borderColor: 'hover:border-sky-500/50',
-      actionText: 'Check Road Status'
+      actionText: 'Check Roads'
     }
   ];
 
   return (
-    <section className="py-20 relative">
+    <section className="py-14 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-cyan-400">
+        <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-semibold text-cyan-400">
             <Cpu className="w-3.5 h-3.5" />
-            <span>INTEGRATED DISASTER MITIGATION ECOSYSTEM</span>
+            <span>PROJECT FEATURES</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            End-to-End Early Warning Architecture
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            How LandslideGuard AI Protects People
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-            Engineered to fulfill Smart India Hackathon (SIH 2026) objectives: turning raw geotechnical and meteorological sensor data into actionable, life-saving community advisories.
+          <p className="text-slate-400 text-sm leading-relaxed">
+            Everything you need to predict, monitor, and prevent landslide disasters in simple, easy-to-use tools.
           </p>
         </div>
 

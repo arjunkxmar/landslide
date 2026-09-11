@@ -18,13 +18,13 @@ export default function Footer({ setActivePage }) {
               </span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              AI-powered Landslide Early Warning and Risk Monitoring Platform engineered for the <span className="text-cyan-400 font-semibold">Smart India Hackathon (SIH 2026)</span>. Delivering real-time geotechnical intelligence and multi-modal alerts across vulnerable Indian mountain belts.
+              AI-powered Landslide Early Warning and Risk Monitoring Platform. Delivering real-time geotechnical intelligence and multi-modal early alerts across vulnerable Indian mountain corridors.
             </p>
 
             <div className="pt-2 flex flex-wrap gap-2">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-[11px] font-mono text-cyan-300">
                 <Award className="w-3.5 h-3.5 text-amber-400" />
-                SIH 2026 Grand Finale Innovation
+                Disaster Safety Platform
               </span>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-[11px] font-mono text-emerald-300">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
@@ -112,7 +112,7 @@ export default function Footer({ setActivePage }) {
         {/* Bottom copyright & status line */}
         <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-mono">
           <div>
-            © 2026 LandslideGuard AI • Smart India Hackathon (SIH 2026) Project. All rights reserved.
+            © 2026 LandslideGuard AI • Early Warning & Risk Management. All rights reserved.
           </div>
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1 text-emerald-400">

@@ -6,43 +6,43 @@ export default function StatsTicker() {
     {
       icon: Cpu,
       value: '148',
-      label: 'IoT Stations Monitored',
-      subtext: 'Borehole tiltmeters & rain gauges',
+      label: 'Mountain Stations',
+      subtext: 'Rain & slope sensors',
       color: 'text-cyan-400'
     },
     {
       icon: Activity,
-      value: '94.8%',
-      label: 'Predictive AI Accuracy',
-      subtext: 'Trained on 10-year GSI records',
+      value: '95%',
+      label: 'AI Accuracy',
+      subtext: 'Landslide detection rate',
       color: 'text-emerald-400'
     },
     {
       icon: Clock,
-      value: '3.4 Hrs',
-      label: 'Avg. Evacuation Lead Time',
-      subtext: 'Window for life safety action',
+      value: '3.5 Hrs',
+      label: 'Advance Notice',
+      subtext: 'Time to evacuate safely',
       color: 'text-amber-400'
     },
     {
       icon: Users,
       value: '45,000+',
-      label: 'Citizens Protected',
-      subtext: 'Across high-vulnerability sectors',
+      label: 'People Protected',
+      subtext: 'Across vulnerable hill towns',
       color: 'text-sky-400'
     },
     {
       icon: Radio,
       value: '18',
-      label: 'Active Early Warnings',
-      subtext: 'Dispatched in 2026 Monsoon cycle',
+      label: 'Warnings Sent',
+      subtext: 'During active monsoon',
       color: 'text-rose-400'
     },
     {
       icon: ShieldCheck,
       value: '100%',
-      label: 'NDMA Protocol Aligned',
-      subtext: 'Common Alerting Protocol (CAP)',
+      label: 'Standard Rules',
+      subtext: 'Official safety guidelines',
       color: 'text-purple-400'
     }
   ];

@@ -32,7 +32,11 @@ export const TRANSLATIONS = {
     analyzeButton: '🤖 ANALYZE LANDSLIDE RISK',
     recommendedAction: 'Recommended Action',
     allStations: 'Monitored Stations',
-    liveStream: 'LIVE STREAM ACTIVE'
+    liveStream: 'LIVE STREAM ACTIVE',
+    featuresMenu: 'Features & Navigation',
+    exploreFeatures: 'Explore System Features',
+    activeSection: 'Active Section',
+    closeMenu: 'Close Menu'
   },
   hi: {
     brandName: 'लैंडस्लाइडगार्ड',
@@ -63,6 +67,10 @@ export const TRANSLATIONS = {
     analyzeButton: '🤖 भूस्खलन जोखिम का विश्लेषण करें',
     recommendedAction: 'अनुशंसित आपातकालीन कार्रवाई',
     allStations: 'निगरानी केंद्र',
-    liveStream: 'लाइव डेटा स्ट्रीम चालू'
+    liveStream: 'लाइव डेटा स्ट्रीम चालू',
+    featuresMenu: 'सुविधाएं व नेविगेशन',
+    exploreFeatures: 'सभी प्रणाली सुविधाएं देखें',
+    activeSection: 'वर्तमान अनुभाग',
+    closeMenu: 'मेनू बंद करें'
   }
 };

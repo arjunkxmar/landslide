@@ -36,20 +36,23 @@ export default function RiskMap({
         attributionControl: false
       });
 
-      // CartoDB Dark Matter tiles (sleek futuristic disaster dashboard style)
-      const initialTiles = L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+      const cartoKey = import.meta.env.VITE_CARTO_API_KEY || 'cb1_3hfl_1_a75355ccc285bca781ca509d';
+
+      // Dark Mode Tile Layer: Using authenticated CARTO Basemaps with official ?key= parameter
+      const initialLayer = L.tileLayer(
+        `https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png?key=${cartoKey}`,
         {
           subdomains: 'abcd',
           maxZoom: 19
         }
-      ).addTo(map);
+      );
 
-      tileLayerRef.current = initialTiles;
+      initialLayer.addTo(map);
+      tileLayerRef.current = initialLayer;
 
       // Attribution
       L.control.attribution({ position: 'bottomright' })
-        .addAttribution('&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap')
+        .addAttribution('&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap contributors')
         .addTo(map);
 
       markersLayerRef.current = L.layerGroup().addTo(map);
@@ -72,23 +75,35 @@ export default function RiskMap({
       mapInstanceRef.current.removeLayer(tileLayerRef.current);
     }
 
-    let url = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-    let subdomains = 'abcd';
+    const cartoKey = import.meta.env.VITE_CARTO_API_KEY || 'cb1_3hfl_1_a75355ccc285bca781ca509d';
 
     if (activeLayer === 'satellite') {
-      // Esri World Imagery (satellite)
-      url = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-      subdomains = '';
-    } else if (activeLayer === 'terrain') {
-      // OpenTopoMap
-      url = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
-      subdomains = 'abc';
-    }
+      // Esri World Imagery (Satellite) - Free, no watermark, no key required
+      tileLayerRef.current = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        { maxZoom: 18 }
+      ).addTo(mapInstanceRef.current);
 
-    tileLayerRef.current = L.tileLayer(url, {
-      subdomains: subdomains || 'abc',
-      maxZoom: 18
-    }).addTo(mapInstanceRef.current);
+    } else if (activeLayer === 'terrain') {
+      // OpenTopoMap (Terrain) - Free, open topographic contours
+      tileLayerRef.current = L.tileLayer(
+        'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+        {
+          subdomains: 'abc',
+          maxZoom: 17
+        }
+      ).addTo(mapInstanceRef.current);
+
+    } else {
+      // Default Dark Mode: Authenticated CARTO Dark Matter with ?key= parameter
+      tileLayerRef.current = L.tileLayer(
+        `https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png?key=${cartoKey}`,
+        {
+          subdomains: 'abcd',
+          maxZoom: 19
+        }
+      ).addTo(mapInstanceRef.current);
+    }
 
   }, [activeLayer]);
 

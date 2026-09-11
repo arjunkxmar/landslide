@@ -105,7 +105,7 @@ export default function EmergencyModal({ isOpen, onClose, alertData }) {
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold font-mono tracking-wider uppercase text-rose-400 px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/30">
-                  SIH 2026 NDMA Command
+                  National Emergency Command
                 </span>
                 <span className="text-[10px] font-mono text-cyan-400">CAP-India v1.2</span>
               </div>
