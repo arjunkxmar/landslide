@@ -9,148 +9,139 @@ import {
   Mountain,
   Droplets,
   AlertTriangle,
-  CheckCircle,
-  HelpCircle
+  Radio,
+  Activity,
+  ChevronRight
 } from 'lucide-react';
+import HeroTerrainScene from '../3d/HeroTerrainScene';
 
 export default function HeroSection({ setActivePage, onOpenEmergencyModal }) {
   return (
-    <section className="relative min-h-[85vh] flex flex-col justify-center overflow-hidden pt-6 pb-12">
-      {/* Background Decorative Graphic Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Mountain Silhouette SVG Background */}
-        <div className="absolute bottom-0 inset-x-0 h-96 opacity-25">
-          <svg
-            viewBox="0 0 1440 320"
-            className="w-full h-full object-cover"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0,224L60,197.3C120,171,240,117,360,122.7C480,128,600,192,720,202.7C840,213,960,171,1080,149.3C1200,128,1320,128,1380,128L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
-              fill="#0e1b33"
-              fillOpacity="0.8"
-            />
-            <path
-              d="M0,288L80,266.7C160,245,320,203,480,197.3C640,192,800,224,960,234.7C1120,245,1280,235,1360,229.3L1440,224L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
-              fill="#091124"
-            />
-          </svg>
-        </div>
-
-        {/* Floating Radar Grid Rings & Sweeper Line */}
-        <div className="absolute -top-28 right-6 sm:right-14 w-[520px] h-[520px] rounded-full border border-cyan-500/15 pointer-events-none flex items-center justify-center animate-pulse-slow">
-          <div className="w-[380px] h-[380px] rounded-full border border-cyan-500/20 flex items-center justify-center">
-            <div className="w-[240px] h-[240px] rounded-full border border-cyan-500/30"></div>
-          </div>
-          {/* Rotating Radar Sweeper Line */}
-          <div className="absolute w-1/2 h-0.5 bg-gradient-to-r from-transparent via-cyan-400/40 to-cyan-400 origin-left animate-radar-sweep left-1/2 top-1/2"></div>
-        </div>
-
-        {/* Ambient subtle glow lights */}
-        <div className="absolute top-1/4 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative min-h-[90vh] flex flex-col justify-center overflow-hidden pt-4 pb-14">
+      {/* 1. Interactive 3D Mountain Terrain Background Scene */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-85">
+        <HeroTerrainScene className="w-full h-full" />
+        {/* Soft gradient masks for cinematic depth blending */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-transparent to-[#050505]/80" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Floating Radar Grid Rings & Sweeper Line (Decorative Cybernetic Accent) */}
+      <div className="absolute -top-24 -right-16 sm:right-10 w-[480px] h-[480px] rounded-full border border-cyan-500/10 pointer-events-none flex items-center justify-center animate-pulse-slow">
+        <div className="w-[340px] h-[340px] rounded-full border border-cyan-500/15 flex items-center justify-center">
+          <div className="w-[200px] h-[200px] rounded-full border border-cyan-500/20" />
+        </div>
+        <div className="absolute w-1/2 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-400/40 to-cyan-400 origin-left animate-radar-sweep left-1/2 top-1/2" />
+      </div>
+
+      {/* Main Content Container */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
-          {/* Left Column: Simple & Clear Problem + Solution Text */}
-          <div className="lg:col-span-7 space-y-5 text-left">
+          {/* Left Column: Hero Mission Intelligence */}
+          <div className="lg:col-span-7 space-y-6 text-left">
             
-            {/* Project Tag Badge (No SIH) */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>AI Early Warning System</span>
-              <span className="text-slate-500">•</span>
-              <span className="text-slate-300">Disaster Safety Initiative</span>
+            {/* Live Operational Status Indicator */}
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#111111]/90 border border-[#222222] text-[#E4E4E7] text-xs font-mono shadow-xl backdrop-blur-md">
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+              </span>
+              <span className="font-bold text-emerald-400">● SYSTEM OPERATIONAL</span>
+              <span className="text-[#52525B]">•</span>
+              <span className="text-[#A1A1AA]">Geotechnical Threat Ingestion Active</span>
             </div>
 
-            {/* Main Headline (Clear & Impactful) */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-              Predicting Mountain Landslides <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-rose-400">
-                Before They Happen
-              </span>
-            </h1>
+            {/* Headline */}
+            <div className="space-y-2">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1]">
+                LandslideGuard <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-rose-400">AI</span>
+              </h1>
+              <p className="text-lg sm:text-xl font-semibold text-[#E4E4E7] tracking-tight">
+                AI-Powered Landslide Risk Monitoring & Early Warning
+              </p>
+            </div>
 
-            {/* Simple Subtitle in plain English */}
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl font-normal">
-              When heavy rains soak steep mountain slopes, soil becomes weak and slides down. 
-              <span className="text-cyan-300 font-medium"> LandslideGuard AI</span> checks rain levels, soil wetness, and hill steepness to give early warnings so people can evacuate safely.
+            {/* Short Project Description */}
+            <p className="text-sm sm:text-base text-[#A1A1AA] leading-relaxed max-w-2xl">
+              Real-time geotechnical intelligence platform combining live atmospheric satellite feeds with ground inclinometers, pore piezometers, and AI slope physics to predict hazardous mountain landslides hours before failure.
             </p>
 
-            {/* 3 Simple Action Buttons */}
-            <div className="pt-2 flex flex-wrap items-center gap-3">
+            {/* Action CTAs */}
+            <div className="pt-2 flex flex-wrap items-center gap-3.5">
+              {/* Primary CTA */}
+              <button
+                onClick={() => {
+                  setActivePage('dashboard');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm shadow-[0_0_30px_rgba(6,182,212,0.4)] hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all transform hover:-translate-y-0.5 cursor-pointer"
+              >
+                <BarChart3 className="w-4 h-4 text-slate-950" />
+                <span>Open Risk Dashboard</span>
+                <ArrowRight className="w-4 h-4 text-slate-950" />
+              </button>
+
+              {/* Secondary CTA */}
               <button
                 onClick={() => {
                   setActivePage('map');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-sm shadow-[0_0_20px_rgba(6,182,212,0.35)] transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                className="flex items-center gap-2 px-5 py-3.5 rounded-xl bg-[#111111] hover:bg-[#161616] border border-[#262626] hover:border-cyan-500/50 text-[#E4E4E7] hover:text-white font-mono font-bold text-sm transition-all transform hover:-translate-y-0.5 cursor-pointer shadow-lg"
               >
-                <Compass className="w-4 h-4" />
-                <span>Open Risk Map</span>
+                <Compass className="w-4 h-4 text-cyan-400" />
+                <span>Explore Risk Map</span>
               </button>
 
-              <button
-                onClick={() => {
-                  setActivePage('prediction');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-cyan-400 text-white font-bold text-sm shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer"
-              >
-                <Sparkles className="w-4 h-4 text-cyan-400" />
-                <span>Try AI Simulator</span>
-              </button>
-
+              {/* Alerts Button */}
               <button
                 onClick={() => {
                   setActivePage('alerts');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="flex items-center gap-2 px-4 py-3 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 font-semibold text-sm transition-all cursor-pointer"
+                className="flex items-center gap-2 px-4 py-3.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 font-mono font-semibold text-xs transition-all cursor-pointer"
               >
-                <AlertTriangle className="w-4 h-4 text-rose-400" />
-                <span>View Alerts (2 Active)</span>
+                <AlertTriangle className="w-4 h-4 text-rose-400 animate-pulse" />
+                <span>Active Alerts (2)</span>
               </button>
             </div>
 
-            {/* Clean, Simple Risk Classification Legend */}
-            <div className="pt-3">
-              <span className="text-xs text-slate-400 font-medium block mb-2">
-                Simple Risk Levels (0% to 100%):
+            {/* Risk Classification Legend */}
+            <div className="pt-2">
+              <span className="text-[11px] font-mono uppercase text-[#71717A] tracking-wider block mb-2 font-bold">
+                Standard Hazard Classification Scale:
               </span>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
+                <div className="p-2 rounded-xl bg-[#0f1914] border border-emerald-500/30 text-emerald-300 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
                   <div>
-                    <strong className="block text-[11px]">0 - 30% Safe</strong>
-                    <span className="text-[10px] text-slate-400">Normal weather</span>
+                    <strong className="block text-[11px]">0-30% LOW</strong>
+                    <span className="text-[10px] text-[#71717A]">Normal conditions</span>
                   </div>
                 </div>
 
-                <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-300 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
+                <div className="p-2 rounded-xl bg-[#19150a] border border-amber-500/30 text-amber-300 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
                   <div>
-                    <strong className="block text-[11px]">31 - 50% Watch</strong>
-                    <span className="text-[10px] text-slate-400">Light watch</span>
+                    <strong className="block text-[11px]">31-50% MODERATE</strong>
+                    <span className="text-[10px] text-[#71717A]">Pore watch</span>
                   </div>
                 </div>
 
-                <div className="p-2 rounded-lg bg-orange-500/10 border border-orange-500/25 text-orange-300 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-orange-400 shrink-0"></span>
+                <div className="p-2 rounded-xl bg-[#19100a] border border-orange-500/30 text-orange-300 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-orange-400 shrink-0" />
                   <div>
-                    <strong className="block text-[11px]">51 - 75% High</strong>
-                    <span className="text-[10px] text-slate-400">Drive carefully</span>
+                    <strong className="block text-[11px]">51-75% HIGH</strong>
+                    <span className="text-[10px] text-[#71717A]">Soil strain creep</span>
                   </div>
                 </div>
 
-                <div className="p-2 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-rose-400 animate-ping shrink-0"></span>
+                <div className="p-2 rounded-xl bg-[#1c0c0e] border border-rose-500/40 text-rose-300 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-rose-400 animate-ping shrink-0" />
                   <div>
-                    <strong className="block text-[11px]">76 - 100% Danger</strong>
-                    <span className="text-[10px] text-slate-400">Evacuate area</span>
+                    <strong className="block text-[11px]">76-100% CRITICAL</strong>
+                    <span className="text-[10px] text-[#71717A]">Evacuate sector</span>
                   </div>
                 </div>
               </div>
@@ -158,115 +149,115 @@ export default function HeroSection({ setActivePage, onOpenEmergencyModal }) {
 
           </div>
 
-          {/* Right Column: Medium-Simple Live Mountain Station Card */}
+          {/* Right Column: Live Telemetry HUD Station Card */}
           <div className="lg:col-span-5">
-            <div className="relative rounded-2xl glass-panel-glow p-5 sm:p-6 space-y-4 border border-cyan-500/30 shadow-[0_0_35px_rgba(6,182,212,0.18)]">
+            <div className="relative rounded-2xl bg-[#0d0d0d]/95 backdrop-blur-2xl p-5 sm:p-6 space-y-4 border border-[#222222] shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_30px_rgba(6,182,212,0.1)]">
               
-              {/* Card Header: Simple & Easy to understand */}
-              <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
+              {/* Card Header */}
+              <div className="flex items-center justify-between border-b border-[#1c1c1c] pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
-                  <span className="text-xs font-bold text-white uppercase tracking-wider">
-                    Live Mountain Station Status
+                  <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+                  <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
+                    Critical Monitoring Station Feed
                   </span>
                 </div>
-                <span className="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  Live Sensor Feed
+                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1 font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  Live Ingestion
                 </span>
               </div>
 
               {/* Active Station Summary */}
-              <div className="p-3.5 rounded-xl bg-[#0a1020] border border-rose-500/30 space-y-1.5">
+              <div className="p-3.5 rounded-xl bg-[#141414] border border-rose-500/30 space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-slate-300">Wayanad Hills (Sector 4, Kerala)</span>
-                  <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-rose-600 text-white shadow-sm">
-                    DANGER: 92%
+                  <span className="text-xs font-bold text-white">Wayanad Meppadi Ridge (Sector 4)</span>
+                  <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-rose-600 text-white shadow-sm">
+                    CRITICAL: 92%
                   </span>
                 </div>
-                <p className="text-xs text-rose-300/90 leading-normal">
-                  ⚠️ Heavy rain has soaked the steep mountain slope. High probability of rocks and mud slipping downhill.
+                <p className="text-xs text-rose-300 leading-normal">
+                  ⚠️ Rainfall exceeds critical slip threshold. Overburden colluvium has reached saturated yield point.
                 </p>
               </div>
 
-              {/* 4 Simple Sensor Readings with Easy Explanations */}
+              {/* 4 Telemetry Metrics Grid */}
               <div className="grid grid-cols-2 gap-2.5">
                 
                 {/* 1. Rainfall */}
-                <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+                <div className="p-3 rounded-xl bg-[#111111] border border-[#1f1f1f]">
                   <div className="flex items-center justify-between text-xs mb-1">
-                    <span className="text-slate-400 font-medium flex items-center gap-1">
+                    <span className="text-[#71717A] font-mono text-[11px] flex items-center gap-1">
                       <CloudRain className="w-3.5 h-3.5 text-cyan-400" />
-                      24h Rainfall
+                      24h Rain
                     </span>
                     <span className="text-rose-400 font-bold font-mono">184 mm</span>
                   </div>
-                  <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                    <div className="bg-rose-500 h-full w-[85%]" />
+                  <div className="w-full bg-[#1c1c1c] h-1.5 rounded-full overflow-hidden">
+                    <div className="bg-rose-500 h-full w-[88%]" />
                   </div>
-                  <span className="text-[10px] text-rose-400 font-medium mt-1 block">Heavy Downpour</span>
+                  <span className="text-[10px] text-rose-400 font-mono mt-1 block">Cloudburst Exceeded</span>
                 </div>
 
-                {/* 2. Soil Moisture */}
-                <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+                {/* 2. Soil Wetness */}
+                <div className="p-3 rounded-xl bg-[#111111] border border-[#1f1f1f]">
                   <div className="flex items-center justify-between text-xs mb-1">
-                    <span className="text-slate-400 font-medium flex items-center gap-1">
-                      <Droplets className="w-3.5 h-3.5 text-sky-400" />
-                      Soil Wetness
+                    <span className="text-[#71717A] font-mono text-[11px] flex items-center gap-1">
+                      <Droplets className="w-3.5 h-3.5 text-blue-400" />
+                      Soil Moisture
                     </span>
                     <span className="text-rose-400 font-bold font-mono">94%</span>
                   </div>
-                  <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div className="w-full bg-[#1c1c1c] h-1.5 rounded-full overflow-hidden">
                     <div className="bg-rose-500 h-full w-[94%]" />
                   </div>
-                  <span className="text-[10px] text-rose-400 font-medium mt-1 block">Very Wet Mud</span>
+                  <span className="text-[10px] text-rose-400 font-mono mt-1 block">Full Liquefaction</span>
                 </div>
 
                 {/* 3. Mountain Slope */}
-                <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+                <div className="p-3 rounded-xl bg-[#111111] border border-[#1f1f1f]">
                   <div className="flex items-center justify-between text-xs mb-1">
-                    <span className="text-slate-400 font-medium flex items-center gap-1">
+                    <span className="text-[#71717A] font-mono text-[11px] flex items-center gap-1">
                       <Mountain className="w-3.5 h-3.5 text-amber-400" />
-                      Slope Angle
+                      Slope Incline
                     </span>
                     <span className="text-amber-400 font-bold font-mono">48°</span>
                   </div>
-                  <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div className="w-full bg-[#1c1c1c] h-1.5 rounded-full overflow-hidden">
                     <div className="bg-amber-500 h-full w-[70%]" />
                   </div>
-                  <span className="text-[10px] text-amber-400 font-medium mt-1 block">Steep Hill</span>
+                  <span className="text-[10px] text-amber-400 font-mono mt-1 block">Steep Escarpment</span>
                 </div>
 
-                {/* 4. Ground Movement */}
-                <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+                {/* 4. Ground Displacement */}
+                <div className="p-3 rounded-xl bg-[#111111] border border-[#1f1f1f]">
                   <div className="flex items-center justify-between text-xs mb-1">
-                    <span className="text-slate-400 font-medium flex items-center gap-1">
+                    <span className="text-[#71717A] font-mono text-[11px] flex items-center gap-1">
                       <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
-                      Ground Shift
+                      Inclinometer
                     </span>
                     <span className="text-rose-400 font-bold font-mono">14.8 mm</span>
                   </div>
-                  <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div className="w-full bg-[#1c1c1c] h-1.5 rounded-full overflow-hidden">
                     <div className="bg-rose-500 h-full w-[80%]" />
                   </div>
-                  <span className="text-[10px] text-rose-400 font-medium mt-1 block">Shift Detected</span>
+                  <span className="text-[10px] text-rose-400 font-mono mt-1 block">Lateral Shear Creep</span>
                 </div>
 
               </div>
 
-              {/* Recommended Action Box */}
-              <div className="p-3 rounded-xl bg-rose-950/30 border border-rose-500/40 text-xs text-rose-200">
-                <strong className="text-white block font-bold mb-0.5">📢 Recommended Action:</strong>
-                Warn residents living near lower slopes and avoid travelling on mountain roads.
+              {/* Action Box */}
+              <div className="p-3 rounded-xl bg-[#190c0e] border border-rose-500/30 text-xs text-rose-200 font-mono">
+                <strong className="text-white block font-bold mb-0.5">📢 CIVIL DEFENSE ACTION:</strong>
+                Evacuate downstream settlements along Chooralmala drainage line.
               </div>
 
-              {/* Emergency Modal Button */}
+              {/* Dispatch Button */}
               <button
                 onClick={onOpenEmergencyModal}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-950/50 transition-all cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-rose-600 via-red-600 to-rose-700 hover:from-rose-500 hover:to-red-500 text-white font-mono font-bold text-xs shadow-lg shadow-rose-950/60 transition-all cursor-pointer"
               >
                 <ShieldAlert className="w-4 h-4" />
-                <span>SEND EMERGENCY ALERT NOTICE</span>
+                <span>INITIATE EMERGENCY DISPATCH NOTIFICATION</span>
               </button>
 
             </div>
@@ -277,4 +268,5 @@ export default function HeroSection({ setActivePage, onOpenEmergencyModal }) {
     </section>
   );
 }
+
 

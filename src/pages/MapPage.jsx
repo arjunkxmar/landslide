@@ -6,6 +6,7 @@ import LiveWeatherCard from '../components/common/LiveWeatherCard';
 import { fetchLiveWeatherData } from '../utils/weatherApi';
 import { calculateLandslideRisk } from '../utils/riskEngine';
 import { useLandslideContext } from '../context/LandslideContext';
+import { soundManager } from '../utils/soundEffects';
 import { 
   Search, 
   Filter, 
@@ -25,7 +26,10 @@ import {
   TrendingDown,
   CloudRain,
   Droplets,
-  Gauge
+  Gauge,
+  Satellite,
+  Activity,
+  MapPin
 } from 'lucide-react';
 
 export default function MapPage({ onOpenEmergencyModal }) {
@@ -116,37 +120,46 @@ export default function MapPage({ onOpenEmergencyModal }) {
   }, [locations, selectedRiskFilter, searchQuery]);
 
   const handleSelectLocation = (loc) => {
+    soundManager?.playClick?.();
     setSelectedLocation(loc);
   };
 
   const handleTriggerAlert = (loc) => {
+    soundManager?.playAlert?.();
     if (onOpenEmergencyModal) {
       onOpenEmergencyModal(loc);
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fadeIn">
       {/* Top Header & Breadcrumbs */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-dark-border pb-6">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+              <Compass className="w-3.5 h-3.5" />
               Geospatial Hazard Intelligence
             </span>
-            <span className="text-xs text-slate-500">•</span>
-            <span className="text-xs font-mono text-emerald-400">100% GIS Synchronized</span>
+            <span className="text-xs text-dark-muted">•</span>
+            <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              100% GIS Synchronized
+            </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5 mt-1">
-            <Compass className="w-7 h-7 text-cyan-400" />
-            Live Landslide Risk Map 🗺️
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5 mt-1.5 font-display">
+            <Activity className="w-7 h-7 text-cyan-400" />
+            Live Geospatial Risk Map & Terrain Console
           </h1>
+          <p className="text-xs sm:text-sm text-dark-muted mt-1 max-w-2xl">
+            Interactive multi-layered spatial monitoring of slope hazards, live meteorological overlays, and subterranean inclinometer creep.
+          </p>
         </div>
 
-        {/* Layer Selector */}
-        <div className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-900 border border-slate-800 self-start md:self-auto">
-          <Layers className="w-4 h-4 text-slate-400 ml-1.5" />
-          <span className="text-xs font-mono text-slate-400 mr-1">Layer:</span>
+        {/* GIS Layer Switcher */}
+        <div className="flex items-center gap-2 p-1.5 rounded-xl bg-dark-bg border border-dark-border self-start md:self-auto shadow-inner">
+          <Layers className="w-4 h-4 text-dark-muted ml-1.5" />
+          <span className="text-xs font-mono text-dark-muted mr-1">Layer:</span>
           {[
             { id: 'dark', label: 'Dark GIS' },
             { id: 'satellite', label: 'Satellite' },
@@ -154,11 +167,14 @@ export default function MapPage({ onOpenEmergencyModal }) {
           ].map((layer) => (
             <button
               key={layer.id}
-              onClick={() => setActiveLayer(layer.id)}
-              className={`px-3 py-1 text-xs font-mono font-semibold rounded-lg transition-all cursor-pointer ${
+              onClick={() => {
+                soundManager?.playClick?.();
+                setActiveLayer(layer.id);
+              }}
+              className={`px-3 py-1.5 text-xs font-mono font-semibold rounded-lg transition-all cursor-pointer ${
                 activeLayer === layer.id
                   ? 'bg-cyan-500 text-slate-950 shadow-md font-bold'
-                  : 'text-slate-400 hover:text-white'
+                  : 'text-dark-muted hover:text-white'
               }`}
             >
               {layer.label}
@@ -172,10 +188,10 @@ export default function MapPage({ onOpenEmergencyModal }) {
         {/* Left Column: Risk Status Overview & Monitored Locations List */}
         <div className="lg:col-span-4 space-y-4">
           {/* Current Risk Status Box */}
-          <div className="p-5 rounded-2xl glass-panel space-y-4 border border-slate-800">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-slate-200">
-                Current Risk Status
+          <div className="p-5 rounded-2xl glass-panel space-y-4 border border-dark-border">
+            <div className="flex items-center justify-between border-b border-dark-border pb-3">
+              <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
+                Risk Distribution Filter
               </h3>
               <span className="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -186,80 +202,95 @@ export default function MapPage({ onOpenEmergencyModal }) {
             {/* Metric Pills */}
             <div className="grid grid-cols-2 gap-2.5">
               <div 
-                onClick={() => setSelectedRiskFilter('ALL')}
+                onClick={() => {
+                  soundManager?.playClick?.();
+                  setSelectedRiskFilter('ALL');
+                }}
                 className={`p-3 rounded-xl border transition-all cursor-pointer ${
                   selectedRiskFilter === 'ALL'
                     ? 'bg-cyan-500/15 border-cyan-500/50 shadow-sm'
-                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'
+                    : 'bg-dark-bg/80 border-dark-border hover:border-dark-hover'
                 }`}
               >
-                <div className="text-[11px] font-mono text-slate-400 uppercase">Monitored</div>
+                <div className="text-[10px] font-mono text-dark-muted uppercase">Monitored</div>
                 <div className="text-2xl font-black font-mono text-white mt-0.5">
                   {riskCounts.total}
                 </div>
-                <div className="text-[10px] text-cyan-400">View All Stations</div>
+                <div className="text-[10px] text-cyan-400 font-mono">View All Stations</div>
               </div>
 
               <div 
-                onClick={() => setSelectedRiskFilter('CRITICAL')}
+                onClick={() => {
+                  soundManager?.playClick?.();
+                  setSelectedRiskFilter('CRITICAL');
+                }}
                 className={`p-3 rounded-xl border transition-all cursor-pointer ${
                   selectedRiskFilter === 'CRITICAL'
                     ? 'bg-rose-500/20 border-rose-500/60 shadow-sm'
-                    : 'bg-slate-900/60 border-slate-800 hover:border-rose-900/50'
+                    : 'bg-dark-bg/80 border-dark-border hover:border-rose-900/50'
                 }`}
               >
-                <div className="text-[11px] font-mono text-rose-400 uppercase font-semibold flex items-center justify-between">
+                <div className="text-[10px] font-mono text-rose-400 uppercase font-semibold flex items-center justify-between">
                   <span>Critical</span>
                   <span>🔴</span>
                 </div>
                 <div className="text-2xl font-black font-mono text-rose-400 mt-0.5 animate-pulse">
                   {riskCounts.critical}
                 </div>
-                <div className="text-[10px] text-rose-400/80">Immediate Danger</div>
+                <div className="text-[10px] text-rose-400/80 font-mono">Immediate Danger</div>
               </div>
 
               <div 
-                onClick={() => setSelectedRiskFilter('HIGH')}
+                onClick={() => {
+                  soundManager?.playClick?.();
+                  setSelectedRiskFilter('HIGH');
+                }}
                 className={`p-3 rounded-xl border transition-all cursor-pointer ${
                   selectedRiskFilter === 'HIGH'
                     ? 'bg-orange-500/20 border-orange-500/60 shadow-sm'
-                    : 'bg-slate-900/60 border-slate-800 hover:border-orange-900/50'
+                    : 'bg-dark-bg/80 border-dark-border hover:border-orange-900/50'
                 }`}
               >
-                <div className="text-[11px] font-mono text-orange-400 uppercase font-semibold flex items-center justify-between">
+                <div className="text-[10px] font-mono text-orange-400 uppercase font-semibold flex items-center justify-between">
                   <span>High Risk</span>
                   <span>🟠</span>
                 </div>
                 <div className="text-2xl font-black font-mono text-orange-400 mt-0.5">
                   {riskCounts.high}
                 </div>
-                <div className="text-[10px] text-orange-400/80">Orange Advisory</div>
+                <div className="text-[10px] text-orange-400/80 font-mono">Orange Advisory</div>
               </div>
 
               <div 
-                onClick={() => setSelectedRiskFilter('MODERATE')}
+                onClick={() => {
+                  soundManager?.playClick?.();
+                  setSelectedRiskFilter('MODERATE');
+                }}
                 className={`p-3 rounded-xl border transition-all cursor-pointer ${
                   selectedRiskFilter === 'MODERATE'
                     ? 'bg-amber-500/20 border-amber-500/60 shadow-sm'
-                    : 'bg-slate-900/60 border-slate-800 hover:border-amber-900/50'
+                    : 'bg-dark-bg/80 border-dark-border hover:border-amber-900/50'
                 }`}
               >
-                <div className="text-[11px] font-mono text-amber-400 uppercase font-semibold flex items-center justify-between">
+                <div className="text-[10px] font-mono text-amber-400 uppercase font-semibold flex items-center justify-between">
                   <span>Moderate</span>
                   <span>🟡</span>
                 </div>
                 <div className="text-2xl font-black font-mono text-amber-400 mt-0.5">
                   {riskCounts.moderate}
                 </div>
-                <div className="text-[10px] text-amber-400/80">Cautious Watch</div>
+                <div className="text-[10px] text-amber-400/80 font-mono">Cautious Watch</div>
               </div>
 
               <div 
-                onClick={() => setSelectedRiskFilter('LOW')}
+                onClick={() => {
+                  soundManager?.playClick?.();
+                  setSelectedRiskFilter('LOW');
+                }}
                 className={`col-span-2 p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                   selectedRiskFilter === 'LOW'
                     ? 'bg-emerald-500/20 border-emerald-500/60 shadow-sm'
-                    : 'bg-slate-900/60 border-slate-800 hover:border-emerald-900/50'
+                    : 'bg-dark-bg/80 border-dark-border hover:border-emerald-900/50'
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -268,7 +299,7 @@ export default function MapPage({ onOpenEmergencyModal }) {
                     Low Risk Stable Stations
                   </span>
                 </div>
-                <div className="text-lg font-black font-mono text-emerald-400">
+                <div className="text-base font-black font-mono text-emerald-400">
                   {riskCounts.low} Stations
                 </div>
               </div>
@@ -276,15 +307,15 @@ export default function MapPage({ onOpenEmergencyModal }) {
           </div>
 
           {/* Search Bar & Filter Controls */}
-          <div className="p-4 rounded-2xl glass-panel space-y-3 border border-slate-800">
+          <div className="p-4 rounded-2xl glass-panel space-y-3 border border-dark-border">
             <div className="relative">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-dark-muted absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search station, district, or state..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-slate-900/90 border border-slate-700 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition-colors"
+                className="w-full pl-9 pr-4 py-2.5 bg-dark-bg/90 border border-dark-border rounded-xl text-xs text-white placeholder-dark-muted focus:outline-none focus:border-cyan-400 transition-colors font-mono"
               />
             </div>
 
@@ -293,11 +324,14 @@ export default function MapPage({ onOpenEmergencyModal }) {
               {['ALL', 'CRITICAL', 'HIGH', 'MODERATE', 'LOW'].map((lvl) => (
                 <button
                   key={lvl}
-                  onClick={() => setSelectedRiskFilter(lvl)}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold shrink-0 transition-all cursor-pointer ${
+                  onClick={() => {
+                    soundManager?.playClick?.();
+                    setSelectedRiskFilter(lvl);
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold shrink-0 transition-all cursor-pointer ${
                     selectedRiskFilter === lvl
-                      ? 'bg-cyan-500 text-slate-950'
-                      : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+                      ? 'bg-cyan-500 text-slate-950 font-bold'
+                      : 'bg-dark-card text-dark-muted hover:text-white border border-dark-border'
                   }`}
                 >
                   {lvl}
@@ -308,9 +342,9 @@ export default function MapPage({ onOpenEmergencyModal }) {
 
           {/* Station Cards List */}
           <div className="space-y-2.5 max-h-[480px] overflow-y-auto pr-1">
-            <div className="text-xs font-mono text-slate-400 flex items-center justify-between px-1">
+            <div className="text-xs font-mono text-dark-muted flex items-center justify-between px-1">
               <span>Matching Stations ({filteredLocations.length})</span>
-              <span className="text-[10px]">Click to inspect</span>
+              <span className="text-[10px]">Select to inspect</span>
             </div>
 
             {filteredLocations.map((loc) => {
@@ -321,30 +355,30 @@ export default function MapPage({ onOpenEmergencyModal }) {
                   onClick={() => handleSelectLocation(loc)}
                   className={`p-3.5 rounded-xl border transition-all duration-200 cursor-pointer text-left ${
                     isSelected
-                      ? 'bg-slate-900/95 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.2)]'
-                      : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/80'
+                      ? 'bg-dark-card border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.2)]'
+                      : 'bg-dark-card/60 border-dark-border hover:border-dark-hover hover:bg-dark-card'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <div className="text-[10px] font-mono text-slate-400">{loc.id} • {loc.state}</div>
+                      <div className="text-[10px] font-mono text-dark-muted">{loc.id} • {loc.state}</div>
                       <h4 className="text-sm font-bold text-white mt-0.5">{loc.name}</h4>
                     </div>
                     <RiskBadge level={loc.riskLevel} score={loc.riskScore} size="sm" />
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2 text-[11px] font-mono text-slate-300 mt-2.5 pt-2 border-t border-slate-800/80">
+                  <div className="grid grid-cols-3 gap-2 text-[11px] font-mono text-slate-300 mt-2.5 pt-2 border-t border-dark-border/60">
                     <div>
-                      <span className="text-[9px] text-slate-500 block">Rain 24h</span>
-                      <span>{loc.rainfall24h} mm</span>
+                      <span className="text-[9px] text-dark-muted block">Rain 24h</span>
+                      <span className="text-cyan-400">{loc.rainfall24h} mm</span>
                     </div>
                     <div>
-                      <span className="text-[9px] text-slate-500 block">Moisture</span>
-                      <span>{loc.soilMoisture}%</span>
+                      <span className="text-[9px] text-dark-muted block">Moisture</span>
+                      <span className="text-blue-400">{loc.soilMoisture}%</span>
                     </div>
                     <div>
-                      <span className="text-[9px] text-slate-500 block">Slope</span>
-                      <span>{loc.slopeAngle}°</span>
+                      <span className="text-[9px] text-dark-muted block">Slope</span>
+                      <span className="text-amber-400">{loc.slopeAngle}°</span>
                     </div>
                   </div>
                 </div>
@@ -352,8 +386,8 @@ export default function MapPage({ onOpenEmergencyModal }) {
             })}
 
             {filteredLocations.length === 0 && (
-              <div className="text-center py-8 text-slate-500 text-xs font-mono">
-                No monitored stations match your filter criteria.
+              <div className="text-center py-8 text-dark-muted text-xs font-mono">
+                No monitored stations match your search or risk filter criteria.
               </div>
             )}
           </div>
@@ -362,7 +396,7 @@ export default function MapPage({ onOpenEmergencyModal }) {
         {/* Right Column: Interactive Map Canvas + Selected Station Telemetry Strip */}
         <div className="lg:col-span-8 space-y-4">
           {/* Map Viewport Container */}
-          <div className="relative rounded-2xl overflow-hidden glass-panel border border-slate-800 h-[620px]">
+          <div className="relative rounded-2xl overflow-hidden glass-panel border border-dark-border h-[620px] shadow-2xl">
             <RiskMap
               locations={filteredLocations}
               selectedLocation={selectedLocation}
@@ -373,12 +407,12 @@ export default function MapPage({ onOpenEmergencyModal }) {
             />
 
             {/* Quick Map Legend Overlay */}
-            <div className="absolute top-4 right-4 z-[500] p-3 rounded-xl glass-panel border border-slate-700/80 text-xs font-mono space-y-1.5 shadow-2xl backdrop-blur-md hidden sm:block">
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-1">
+            <div className="absolute top-4 right-4 z-[500] p-3.5 rounded-xl glass-panel border border-dark-border text-xs font-mono space-y-1.5 shadow-2xl backdrop-blur-md hidden sm:block">
+              <div className="text-[10px] font-bold text-dark-muted uppercase tracking-wider border-b border-dark-border pb-1">
                 Risk Classification Legend
               </div>
               <div className="flex items-center gap-2 text-rose-400 font-semibold">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse" />
+                <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                 <span>Critical Risk (76 - 100%)</span>
               </div>
               <div className="flex items-center gap-2 text-orange-400">
@@ -396,7 +430,7 @@ export default function MapPage({ onOpenEmergencyModal }) {
             </div>
 
             {/* Bottom Status Ticker on Map */}
-            <div className="absolute bottom-4 left-4 z-[500] px-3 py-1.5 rounded-lg glass-panel border border-slate-800 text-[11px] font-mono text-slate-300 flex items-center gap-2">
+            <div className="absolute bottom-4 left-4 z-[500] px-3.5 py-1.5 rounded-xl glass-panel border border-dark-border text-[11px] font-mono text-slate-300 flex items-center gap-2">
               <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
               <span>Real-Time Open-Meteo Weather Feed Synced with GIS Map</span>
             </div>
@@ -416,15 +450,16 @@ export default function MapPage({ onOpenEmergencyModal }) {
 
           {/* Detailed Selected Station Telemetry Strip */}
           {selectedLocation && (
-            <div className="p-5 rounded-2xl glass-panel border border-slate-800 space-y-3">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <div className="p-5 rounded-2xl glass-panel border border-dark-border space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-dark-border pb-4">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono text-cyan-400 font-bold uppercase">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs font-mono text-cyan-400 font-bold uppercase flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5" />
                       Target Station Inspection
                     </span>
-                    <span className="text-xs font-mono text-slate-500">•</span>
-                    <span className="text-xs font-mono text-slate-400">{selectedLocation.id}</span>
+                    <span className="text-xs font-mono text-dark-muted">•</span>
+                    <span className="text-xs font-mono text-dark-muted">{selectedLocation.id}</span>
                     {liveWeather && (
                       <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -432,7 +467,7 @@ export default function MapPage({ onOpenEmergencyModal }) {
                       </span>
                     )}
                   </div>
-                  <h3 className="text-lg font-bold text-white mt-0.5">
+                  <h3 className="text-lg font-bold text-white mt-1 font-display">
                     {selectedLocation.name} ({selectedLocation.state})
                   </h3>
                 </div>
@@ -446,8 +481,11 @@ export default function MapPage({ onOpenEmergencyModal }) {
                   
                   {/* Button to open Slope Cross Section */}
                   <button
-                    onClick={() => setSlopeProfileModalOpen(true)}
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 font-mono text-xs font-bold transition-all cursor-pointer"
+                    onClick={() => {
+                      soundManager?.playClick?.();
+                      setSlopeProfileModalOpen(true);
+                    }}
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-dark-card hover:bg-dark-hover text-cyan-300 border border-dark-border font-mono text-xs font-bold transition-all cursor-pointer"
                   >
                     <Mountain className="w-3.5 h-3.5" />
                     <span>3D Slope Profile</span>
@@ -459,7 +497,7 @@ export default function MapPage({ onOpenEmergencyModal }) {
                       riskScore: liveRisk ? liveRisk.score : selectedLocation.riskScore,
                       riskLevel: liveRisk ? liveRisk.riskInfo.level : selectedLocation.riskLevel
                     })}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-lg shadow-rose-950/40 transition-all cursor-pointer"
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-risk-critical hover:bg-rose-500 text-white font-bold text-xs shadow-lg shadow-rose-950/40 border border-rose-500/40 transition-all cursor-pointer"
                   >
                     <ShieldAlert className="w-4 h-4" />
                     <span>Trigger Alert</span>
@@ -469,65 +507,65 @@ export default function MapPage({ onOpenEmergencyModal }) {
 
               {/* 5-Metrics Grid Powered by Live Telemetry & Field Sensors */}
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800">
+                <div className="p-3 rounded-xl bg-dark-bg/80 border border-dark-border">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-slate-500 block uppercase font-mono">24h Rainfall</span>
-                    <CloudRain className="w-3 h-3 text-cyan-400" />
+                    <span className="text-[10px] text-dark-muted block uppercase font-mono">24h Rainfall</span>
+                    <CloudRain className="w-3.5 h-3.5 text-cyan-400" />
                   </div>
                   <div className="text-lg font-bold font-mono text-white mt-0.5">
-                    {liveWeather ? liveWeather.derived.dailyRainfall : selectedLocation.rainfall24h} <span className="text-xs text-slate-400">mm</span>
+                    {liveWeather ? liveWeather.derived.dailyRainfall : selectedLocation.rainfall24h} <span className="text-xs text-cyan-400">mm</span>
                   </div>
                   <span className="text-[9px] text-cyan-400 font-mono block mt-0.5">
                     {liveWeather ? '● Open-Meteo Live' : 'Baseline Archive'}
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800">
+                <div className="p-3 rounded-xl bg-dark-bg/80 border border-dark-border">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-slate-500 block uppercase font-mono">Soil Moisture</span>
-                    <Droplets className="w-3 h-3 text-blue-400" />
+                    <span className="text-[10px] text-dark-muted block uppercase font-mono">Soil Moisture</span>
+                    <Droplets className="w-3.5 h-3.5 text-blue-400" />
                   </div>
                   <div className="text-lg font-bold font-mono text-white mt-0.5">
-                    {liveWeather ? liveWeather.derived.soilMoisturePercent : selectedLocation.soilMoisture} <span className="text-xs text-slate-400">%</span>
+                    {liveWeather ? liveWeather.derived.soilMoisturePercent : selectedLocation.soilMoisture} <span className="text-xs text-blue-400">%</span>
                   </div>
                   <span className="text-[9px] text-blue-400 font-mono block mt-0.5">
                     {liveWeather ? `VWC: ${liveWeather.hourly.soil_moisture_0_to_1cm} m³/m³` : 'Topsoil Sensor'}
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800">
+                <div className="p-3 rounded-xl bg-dark-bg/80 border border-dark-border">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-slate-500 block uppercase font-mono">Slope Angle</span>
-                    <Mountain className="w-3 h-3 text-amber-400" />
+                    <span className="text-[10px] text-dark-muted block uppercase font-mono">Slope Angle</span>
+                    <Mountain className="w-3.5 h-3.5 text-amber-400" />
                   </div>
                   <div className="text-lg font-bold font-mono text-white mt-0.5">
-                    {selectedLocation.slopeAngle} <span className="text-xs text-slate-400">deg</span>
+                    {selectedLocation.slopeAngle} <span className="text-xs text-amber-400">deg</span>
                   </div>
                   <span className="text-[9px] text-amber-400 font-mono block mt-0.5">
                     DEM Incline
                   </span>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800">
+                <div className="p-3 rounded-xl bg-dark-bg/80 border border-dark-border">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-slate-500 block uppercase font-mono">Shear Shift</span>
-                    <TrendingDown className="w-3 h-3 text-rose-400" />
+                    <span className="text-[10px] text-dark-muted block uppercase font-mono">Shear Shift</span>
+                    <TrendingDown className="w-3.5 h-3.5 text-rose-400" />
                   </div>
                   <div className="text-lg font-bold font-mono text-white mt-0.5">
-                    {selectedLocation.inclinometerDisplacement} <span className="text-xs text-slate-400">mm</span>
+                    {selectedLocation.inclinometerDisplacement} <span className="text-xs text-rose-400">mm</span>
                   </div>
                   <span className="text-[9px] text-rose-400 font-mono block mt-0.5">
                     MEMS Inclinometer
                   </span>
                 </div>
 
-                <div className="col-span-2 sm:col-span-1 p-3 rounded-xl bg-slate-900/70 border border-slate-800">
+                <div className="col-span-2 sm:col-span-1 p-3 rounded-xl bg-dark-bg/80 border border-dark-border">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-slate-500 block uppercase font-mono">Pressure / Baro</span>
-                    <Gauge className="w-3 h-3 text-amber-400" />
+                    <span className="text-[10px] text-dark-muted block uppercase font-mono">Pressure / Baro</span>
+                    <Gauge className="w-3.5 h-3.5 text-amber-400" />
                   </div>
                   <div className="text-lg font-bold font-mono text-white mt-0.5">
-                    {liveWeather ? Math.round(liveWeather.current.surface_pressure) : 1013} <span className="text-xs text-slate-400">hPa</span>
+                    {liveWeather ? Math.round(liveWeather.current.surface_pressure) : 1013} <span className="text-xs text-dark-muted">hPa</span>
                   </div>
                   <span className="text-[9px] text-amber-400 font-mono block mt-0.5">
                     {liveWeather && liveWeather.current.surface_pressure < 1000 ? '⚠️ Low Depression' : 'Normal Head'}
@@ -535,12 +573,12 @@ export default function MapPage({ onOpenEmergencyModal }) {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800/80 text-xs text-slate-300 space-y-2">
+              <div className="p-4 rounded-xl bg-dark-bg/60 border border-dark-border text-xs text-slate-300 space-y-2">
                 <div>
-                  <span className="font-bold text-slate-400 font-mono">Geological Assessment: </span>
+                  <span className="font-bold text-dark-muted font-mono">Geological Assessment: </span>
                   {selectedLocation.details}
                 </div>
-                <div className="text-[11px] text-slate-400 pt-2 border-t border-slate-800/60 flex items-start gap-1.5 font-mono leading-relaxed">
+                <div className="text-[11px] text-dark-muted pt-2 border-t border-dark-border flex items-start gap-1.5 font-mono leading-relaxed">
                   <span className="text-cyan-400 shrink-0 mt-0.5">ℹ️</span>
                   <span>
                     <strong>Telemetry Pipeline: </strong>
@@ -555,27 +593,31 @@ export default function MapPage({ onOpenEmergencyModal }) {
 
       {/* Geotechnical Slope Cross-Section Profile Modal */}
       {slopeProfileModalOpen && selectedLocation && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-3xl overflow-hidden rounded-3xl glass-panel border border-cyan-500/40 p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+          <div className="relative w-full max-w-3xl overflow-hidden rounded-3xl glass-panel border border-cyan-500/40 p-6 space-y-5 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-dark-border pb-3">
               <div>
-                <span className="text-xs font-mono text-cyan-400 uppercase font-bold">
+                <span className="text-xs font-mono text-cyan-400 uppercase font-bold flex items-center gap-1.5">
+                  <Mountain className="w-4 h-4" />
                   Borehole Geotechnical Cross-Section
                 </span>
-                <h3 className="text-lg font-bold text-white mt-0.5">
+                <h3 className="text-lg font-bold text-white mt-1 font-display">
                   {selectedLocation.name} — Slope Gradient {selectedLocation.slopeAngle}°
                 </h3>
               </div>
               <button
-                onClick={() => setSlopeProfileModalOpen(false)}
-                className="p-2 text-slate-400 hover:text-white rounded-lg cursor-pointer"
+                onClick={() => {
+                  soundManager?.playClick?.();
+                  setSlopeProfileModalOpen(false);
+                }}
+                className="p-2 text-dark-muted hover:text-white rounded-lg cursor-pointer transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* SVG Geological Cross-Section Diagram */}
-            <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800">
+            <div className="p-4 rounded-2xl bg-dark-bg border border-dark-border">
               <svg viewBox="0 0 600 240" className="w-full h-56">
                 <defs>
                   <linearGradient id="soilGrad" x1="0" y1="0" x2="0" y2="1">
@@ -591,19 +633,19 @@ export default function MapPage({ onOpenEmergencyModal }) {
                 {/* Sky / Air Background */}
                 <rect x="0" y="0" width="600" height="240" fill="#070b14" />
 
-                {/* Bedrock Polygon (solid gneiss / charnockite) */}
-                <polygon points="120,70 560,180 560,230 40,230 40,110" fill="#1e293b" />
-                <text x="320" y="215" fill="#64748b" fontSize="11" fontFamily="monospace">STABLE BEDROCK (Gneiss / Charnockite Series)</text>
+                {/* Bedrock Polygon */}
+                <polygon points="120,70 560,180 560,230 40,230 40,110" fill="#151515" />
+                <text x="320" y="215" fill="#71717A" fontSize="11" fontFamily="monospace">STABLE BEDROCK (Gneiss / Charnockite Series)</text>
 
-                {/* Topsoil Overburden Layer (Laterite / Colluvium) */}
+                {/* Topsoil Overburden Layer */}
                 <polygon points="100,50 540,160 560,180 120,70" fill="url(#soilGrad)" />
                 <text x="360" y="145" fill="#fef08a" fontSize="10" fontFamily="monospace">OVERBURDEN COLLUVIUM (Thickness: 4.8m)</text>
 
-                {/* Potential Shear Slip Surface (Red dashed line) */}
+                {/* Potential Shear Slip Surface */}
                 <path d="M 120,70 Q 320,130 560,180" fill="none" stroke="#ef4444" strokeWidth="3" strokeDasharray="5 3" />
                 <text x="180" y="115" fill="#ef4444" fontSize="10" fontFamily="monospace" fontWeight="bold">CRITICAL FAILURE SLIP PLANE</text>
 
-                {/* Water Table Saturated Zone (Blue gradient overlay) */}
+                {/* Water Table Saturated Zone */}
                 <polygon points="200,98 550,175 560,180 200,105" fill="url(#waterTableGrad)" />
                 <text x="240" y="180" fill="#38bdf8" fontSize="10" fontFamily="monospace">PHREATIC WATER TABLE (Pore Pressure: {selectedLocation.porePressure})</text>
 
@@ -620,24 +662,27 @@ export default function MapPage({ onOpenEmergencyModal }) {
             </div>
 
             <div className="grid grid-cols-3 gap-3 text-xs font-mono text-slate-300">
-              <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                <span className="text-slate-500 block text-[10px]">Overburden Shear Strength</span>
+              <div className="p-3 rounded-xl bg-dark-bg border border-dark-border">
+                <span className="text-dark-muted block text-[10px]">Overburden Shear Strength</span>
                 <span className="text-rose-400 font-bold">Degraded (14.2 kPa)</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                <span className="text-slate-500 block text-[10px]">Factor of Safety (FoS)</span>
+              <div className="p-3 rounded-xl bg-dark-bg border border-dark-border">
+                <span className="text-dark-muted block text-[10px]">Factor of Safety (FoS)</span>
                 <span className="text-rose-400 font-bold">0.86 (Unstable FoS &lt; 1.0)</span>
               </div>
-              <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                <span className="text-slate-500 block text-[10px]">Piezometer Hydraulic Head</span>
+              <div className="p-3 rounded-xl bg-dark-bg border border-dark-border">
+                <span className="text-dark-muted block text-[10px]">Piezometer Hydraulic Head</span>
                 <span className="text-cyan-400 font-bold">12.4 meters head</span>
               </div>
             </div>
 
             <div className="flex justify-end pt-2">
               <button
-                onClick={() => setSlopeProfileModalOpen(false)}
-                className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono text-xs cursor-pointer"
+                onClick={() => {
+                  soundManager?.playClick?.();
+                  setSlopeProfileModalOpen(false);
+                }}
+                className="px-5 py-2.5 rounded-xl bg-dark-card hover:bg-dark-hover text-white font-mono text-xs border border-dark-border cursor-pointer transition-colors"
               >
                 Close Cross-Section
               </button>

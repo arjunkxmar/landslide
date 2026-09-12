@@ -166,23 +166,22 @@ export default function AIChatbot() {
       {/* ========================================================================= */}
       {!isOpen && (
         <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex items-center gap-3">
-          {/* Subtle Attention Tooltip (Hidden on mobile) */}
-          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0e172a]/95 border border-cyan-500/30 text-xs font-mono text-cyan-300 shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-md animate-fadeIn">
+          {/* Attention Tooltip */}
+          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#111111]/95 border border-cyan-500/30 text-xs font-mono text-cyan-300 shadow-[0_4px_20px_rgba(0,0,0,0.7)] backdrop-blur-md animate-fadeIn">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>LandslideGuard AI Assistant</span>
+            <span>AI Risk Intelligence Assistant</span>
           </div>
 
           {/* Circular Button */}
           <button
             onClick={handleOpenChat}
             aria-label="Open LandslideGuard AI Assistant"
-            className="relative group p-4 sm:p-4.5 rounded-full bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 text-white shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:shadow-[0_0_35px_rgba(6,182,212,0.7)] transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#070b14]"
+            className="relative group p-4 rounded-full bg-[#111111] hover:bg-[#161616] border border-cyan-500/40 text-white shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer"
           >
-            {/* Pulsing Radar Ring */}
-            <span className="absolute -inset-1 rounded-full bg-cyan-400/30 blur-sm group-hover:bg-cyan-400/50 transition-all animate-pulse-slow pointer-events-none" />
+            <span className="absolute -inset-1 rounded-full bg-cyan-400/20 blur-sm group-hover:bg-cyan-400/40 transition-all animate-pulse-slow pointer-events-none" />
 
             <div className="relative flex items-center justify-center">
-              <Bot className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+              <Bot className="w-6 h-6 text-cyan-400" />
               <Sparkles className="w-3.5 h-3.5 absolute -top-1.5 -right-1.5 text-amber-300 animate-bounce" style={{ animationDuration: '2.5s' }} />
             </div>
           </button>
@@ -190,57 +189,52 @@ export default function AIChatbot() {
       )}
 
       {/* ========================================================================= */}
-      {/* 2. CHAT PANEL (Floating Window / Sheet on Mobile)                        */}
+      {/* 2. CHAT PANEL                                                             */}
       {/* ========================================================================= */}
       {isOpen && (
         <div 
           role="dialog"
           aria-label="LandslideGuard AI Assistant Dialog"
           aria-modal="true"
-          className="fixed z-50 transition-all duration-300 inset-x-3 bottom-3 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[430px] h-[580px] max-h-[90vh] sm:max-h-[640px] flex flex-col rounded-2xl bg-[#070b14]/95 border border-cyan-500/30 shadow-[0_12px_45px_rgba(0,0,0,0.8),0_0_30px_rgba(6,182,212,0.15)] backdrop-blur-xl overflow-hidden animate-fadeIn"
+          className="fixed z-50 transition-all duration-300 inset-x-3 bottom-3 sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[430px] h-[580px] max-h-[90vh] sm:max-h-[640px] flex flex-col rounded-3xl bg-[#0a0a0a]/98 border border-[#222222] shadow-[0_20px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(6,182,212,0.15)] backdrop-blur-2xl overflow-hidden animate-fadeIn"
         >
           {/* ----------------- Panel Header ----------------- */}
-          <div className="p-3.5 sm:p-4 bg-gradient-to-r from-[#0c1527] via-[#0e1a33] to-[#0c1527] border-b border-slate-800 flex items-center justify-between gap-3 flex-shrink-0">
+          <div className="p-3.5 sm:p-4 bg-[#0e0e0e] border-b border-[#1c1c1c] flex items-center justify-between gap-3 flex-shrink-0">
             <div className="flex items-center gap-2.5 min-w-0">
-              {/* Bot Avatar Icon */}
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-[0_0_15px_rgba(6,182,212,0.4)] flex-shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-[#161616] border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)] flex-shrink-0">
                 <Bot className="w-5 h-5" />
               </div>
 
-              {/* Title & Subtitle */}
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
                   <h3 className="font-bold text-sm sm:text-base text-white truncate tracking-tight">
                     LandslideGuard AI
                   </h3>
-                  <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-semibold border border-cyan-500/30 flex-shrink-0">
-                    AI ASSISTANT
+                  <span className="px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300 text-[10px] font-mono font-semibold border border-cyan-500/30 flex-shrink-0">
+                    ASSISTANT
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400 truncate">
-                  Your Landslide Risk Assistant
+                <p className="text-[11px] text-[#71717A] truncate">
+                  Real-time Geotechnical Intelligence
                 </p>
               </div>
             </div>
 
-            {/* Header Actions */}
             <div className="flex items-center gap-1 flex-shrink-0">
-              {/* Clear Chat Button */}
               <button
                 onClick={handleClearChat}
                 title="Clear conversation"
                 aria-label="Clear chat history"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-slate-800/80 transition-colors"
+                className="p-1.5 rounded-lg text-[#71717A] hover:text-rose-400 hover:bg-[#161616] transition-colors cursor-pointer"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
 
-              {/* Close Button */}
               <button
                 onClick={() => setIsOpen(false)}
                 title="Close chat (Esc)"
                 aria-label="Close AI Assistant"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/80 transition-colors"
+                className="p-1.5 rounded-lg text-[#71717A] hover:text-white hover:bg-[#161616] transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -248,10 +242,10 @@ export default function AIChatbot() {
           </div>
 
           {/* ----------------- Context Status Banner ----------------- */}
-          <div className="px-3.5 py-2 bg-[#090f1d] border-b border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-300 flex-shrink-0">
+          <div className="px-3.5 py-2 bg-[#0c0c0c] border-b border-[#1a1a1a] flex items-center justify-between text-[11px] font-mono text-[#A1A1AA] flex-shrink-0">
             <div className="flex items-center gap-1.5 truncate">
               <MapPin className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
-              <span className="truncate text-slate-300 font-medium">
+              <span className="truncate text-[#E4E4E7] font-medium">
                 {currentContext.locationName || 'Station Monitoring'}
               </span>
             </div>
@@ -262,7 +256,7 @@ export default function AIChatbot() {
                 currentContext.riskLevel === 'MODERATE' ? 'bg-amber-500' : 'bg-emerald-500'
               }`} />
               <span className="font-bold text-cyan-400">
-                Score: {currentContext.riskScore}
+                Score: {currentContext.riskScore}%
               </span>
             </div>
           </div>
@@ -273,7 +267,6 @@ export default function AIChatbot() {
               <ChatMessage key={msg.id} message={msg} />
             ))}
 
-            {/* Quick Questions (rendered below greeting or when message count is low) */}
             {messages.length <= 2 && (
               <div className="pt-2 pb-1">
                 <QuickQuestions 
@@ -283,14 +276,13 @@ export default function AIChatbot() {
               </div>
             )}
 
-            {/* Typing Indicator */}
             {isLoading && <TypingIndicator />}
 
             <div ref={messagesEndRef} />
           </div>
 
           {/* ----------------- Chat Input Bar ----------------- */}
-          <div className="p-3 sm:p-3.5 bg-[#090f1d] border-t border-slate-800 flex-shrink-0">
+          <div className="p-3 sm:p-3.5 bg-[#0e0e0e] border-t border-[#1c1c1c] flex-shrink-0">
             <div className="relative flex items-center">
               <input
                 ref={inputRef}
@@ -300,27 +292,25 @@ export default function AIChatbot() {
                 onKeyDown={handleKeyDown}
                 placeholder="Ask in English, Hindi, or Hinglish..."
                 disabled={isLoading}
-                className="w-full pl-3.5 pr-12 py-2.5 rounded-xl bg-[#0e172a] border border-slate-700/80 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-all disabled:opacity-50"
+                className="w-full pl-3.5 pr-12 py-2.5 rounded-xl bg-[#141414] border border-[#262626] focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-sm text-[#E4E4E7] placeholder-[#71717A] focus:outline-none transition-all disabled:opacity-50"
               />
 
-              {/* Send Button */}
               <button
                 onClick={() => handleSendMessage()}
                 disabled={!inputMessage.trim() || isLoading}
                 aria-label="Send message"
-                className="absolute right-1.5 p-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-cyan-500 shadow-sm"
+                className="absolute right-1.5 p-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-cyan-500 shadow-sm cursor-pointer"
               >
                 <Send className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            {/* Footer Disclaimer */}
-            <div className="flex items-center justify-between mt-2 px-1 text-[10px] text-slate-500">
+            <div className="flex items-center justify-between mt-2 px-1 text-[10px] text-[#71717A]">
               <span className="flex items-center gap-1">
-                <Info className="w-2.5 h-2.5 text-slate-500" />
-                AI decision-support • Press Enter to send
+                <Info className="w-2.5 h-2.5 text-[#71717A]" />
+                Decision-support telemetry • Press Enter
               </span>
-              <span className="font-mono">SIH 2026</span>
+              <span className="font-mono">LandslideGuard v2.4</span>
             </div>
           </div>
         </div>

@@ -115,8 +115,8 @@ export default function App() {
 
   return (
     <LandslideProvider activePage={activePage}>
-      <div className="min-h-screen flex flex-col bg-[#070b14] text-slate-100 antialiased selection:bg-cyan-500 selection:text-white relative">
-        {/* Top Fixed / Sticky Navigation Bar */}
+      <div className="min-h-screen flex flex-col lg:flex-row bg-[#050505] text-slate-100 antialiased selection:bg-cyan-500 selection:text-white relative">
+        {/* Left Vertical Navigation Sidebar */}
         <Navbar 
           activePage={activePage} 
           setActivePage={setActivePage} 
@@ -125,13 +125,15 @@ export default function App() {
           onToggleLang={handleToggleLang}
         />
 
-        {/* Main Content Area */}
-        <main className="flex-1 w-full">
-          {renderActivePage()}
-        </main>
+        {/* Right Main Application Area */}
+        <div className="flex-1 flex flex-col min-w-0 min-h-screen overflow-x-hidden">
+          <main className="flex-1 w-full">
+            {renderActivePage()}
+          </main>
 
-        {/* Standard Footer */}
-        <Footer setActivePage={setActivePage} currentLang={currentLang} />
+          {/* Standard Footer */}
+          <Footer setActivePage={setActivePage} currentLang={currentLang} />
+        </div>
 
         {/* Global Emergency Command Dispatch Modal */}
         <EmergencyModal 

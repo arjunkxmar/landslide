@@ -33,10 +33,10 @@ export default function AnalyticsPage() {
   );
 
   const handleExportReport = () => {
-    soundManager.playBeep(880, 0.15);
+    soundManager?.playClick?.();
     setReportDownloaded(true);
     
-    // Generate simulated CSV content
+    // Generate CSV content
     const csvContent = "data:text/csv;charset=utf-8," + 
       "Month,Rainfall_mm,Landslide_Events,Alerts_Issued,Avg_Risk_Score\n" +
       MONTHLY_METRICS.map(m => `${m.month},${m.rainfallMm},${m.landslideEvents},${m.alertsIssued},${m.avgRiskScore}`).join("\n");
@@ -53,63 +53,67 @@ export default function AnalyticsPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fadeIn">
       {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-dark-border pb-6">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+              <Activity className="w-3.5 h-3.5" />
               Geotechnical Data Science & Historical Auditing
             </span>
-            <span className="text-xs text-slate-500">•</span>
-            <span className="text-xs font-mono text-emerald-400">10-Year GSI Benchmark</span>
+            <span className="text-xs text-dark-muted">•</span>
+            <span className="text-xs font-mono text-emerald-400">10-Year GSI Benchmark Records</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5 mt-1">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5 mt-1.5 font-display">
             <BarChart3 className="w-7 h-7 text-cyan-400" />
-            Landslide Risk Analytics & Trends 📈
+            Landslide Risk Analytics & Telemetry Trends
           </h1>
+          <p className="text-xs sm:text-sm text-dark-muted mt-1 max-w-2xl">
+            Long-term correlation of precipitation surges against ground ruptures, multi-year model precision verification, and district vulnerability indices.
+          </p>
         </div>
 
         {/* Export Button */}
         <div className="flex items-center gap-3">
           <button
             onClick={handleExportReport}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-950/50 transition-all cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-950/50 transition-all cursor-pointer font-mono"
           >
             <Download className="w-4 h-4 text-slate-950" />
-            <span>{reportDownloaded ? 'Downloaded CSV!' : 'Export Annual Audit Report'}</span>
+            <span>{reportDownloaded ? 'Downloaded CSV!' : 'Export Annual Audit CSV'}</span>
           </button>
         </div>
       </div>
 
       {/* KPI Performance Metrics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="p-4 rounded-2xl glass-panel border border-slate-800">
-          <span className="text-[10px] font-mono uppercase text-slate-400 block">Total Alerts Dispatched</span>
+        <div className="p-4 rounded-2xl glass-panel border border-dark-border">
+          <span className="text-[10px] font-mono uppercase text-dark-muted block">Total Alerts Dispatched</span>
           <div className="text-3xl font-black font-mono text-white mt-1">
             {SYSTEM_METRICS_SUMMARY.totalAlertsDispatched}
           </div>
           <span className="text-[10px] text-emerald-400 font-mono mt-1 block">94.8% True Positive Verification</span>
         </div>
 
-        <div className="p-4 rounded-2xl glass-panel border border-slate-800">
-          <span className="text-[10px] font-mono uppercase text-slate-400 block">Avg. Evacuation Lead Time</span>
+        <div className="p-4 rounded-2xl glass-panel border border-dark-border">
+          <span className="text-[10px] font-mono uppercase text-dark-muted block">Avg. Evacuation Lead Time</span>
           <div className="text-3xl font-black font-mono text-cyan-400 mt-1">
             {SYSTEM_METRICS_SUMMARY.leadTimeAvg}
           </div>
-          <span className="text-[10px] text-slate-400 font-mono mt-1 block">Window for NDRF Mobilization</span>
+          <span className="text-[10px] text-dark-muted font-mono mt-1 block">Window for NDRF Mobilization</span>
         </div>
 
-        <div className="p-4 rounded-2xl glass-panel border border-slate-800">
-          <span className="text-[10px] font-mono uppercase text-slate-400 block">Citizen Reports Resolved</span>
+        <div className="p-4 rounded-2xl glass-panel border border-dark-border">
+          <span className="text-[10px] font-mono uppercase text-dark-muted block">Citizen Reports Resolved</span>
           <div className="text-3xl font-black font-mono text-amber-400 mt-1">
             {SYSTEM_METRICS_SUMMARY.citizenReportsProcessed}
           </div>
           <span className="text-[10px] text-amber-400/80 font-mono mt-1 block">Verified by field patrol units</span>
         </div>
 
-        <div className="p-4 rounded-2xl glass-panel border border-slate-800">
-          <span className="text-[10px] font-mono uppercase text-slate-400 block">False Positive Rate</span>
+        <div className="p-4 rounded-2xl glass-panel border border-dark-border">
+          <span className="text-[10px] font-mono uppercase text-dark-muted block">False Positive Rate</span>
           <div className="text-3xl font-black font-mono text-emerald-400 mt-1">
             {SYSTEM_METRICS_SUMMARY.falsePositiveRate}
           </div>
@@ -118,24 +122,24 @@ export default function AnalyticsPage() {
       </div>
 
       {/* 12-Month Rainfall vs. Landslide Event Chart */}
-      <div className="p-6 rounded-2xl glass-panel border border-slate-800 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+      <div className="p-6 rounded-2xl glass-panel border border-dark-border space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-dark-border pb-4">
           <div>
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <h3 className="text-base font-bold text-white flex items-center gap-2 font-display">
               <TrendingUp className="w-4 h-4 text-cyan-400" />
               <span>Monthly Rainfall (mm) vs. Landslide Incidence (Events)</span>
             </h3>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-dark-muted mt-0.5">
               Seasonal correlation illustrating spike during June–August southwest monsoon
             </p>
           </div>
 
           <div className="flex items-center gap-4 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-cyan-400">
-              <span className="w-2.5 h-2.5 bg-cyan-400 rounded-sm" /> Rainfall (mm)
+              <span className="w-2.5 h-2.5 bg-cyan-400 rounded-sm shadow-[0_0_6px_rgba(6,182,212,0.8)]" /> Rainfall (mm)
             </span>
             <span className="flex items-center gap-1.5 text-rose-400">
-              <span className="w-2.5 h-2.5 bg-rose-500 rounded-full" /> Landslide Events
+              <span className="w-2.5 h-2.5 bg-rose-500 rounded-full shadow-[0_0_6px_rgba(239,68,68,0.8)]" /> Landslide Events
             </span>
           </div>
         </div>
@@ -144,18 +148,18 @@ export default function AnalyticsPage() {
         <div className="h-72 w-full pt-4">
           <svg viewBox="0 0 840 260" className="w-full h-full overflow-visible">
             {/* Guide Lines */}
-            <line x1="40" y1="30" x2="820" y2="30" stroke="#1e293b" strokeDasharray="3" />
-            <line x1="40" y1="80" x2="820" y2="80" stroke="#1e293b" strokeDasharray="3" />
-            <line x1="40" y1="130" x2="820" y2="130" stroke="#1e293b" strokeDasharray="3" />
-            <line x1="40" y1="180" x2="820" y2="180" stroke="#1e293b" strokeDasharray="3" />
-            <line x1="40" y1="220" x2="820" y2="220" stroke="#334155" />
+            <line x1="40" y1="30" x2="820" y2="30" stroke="#1A1A1A" strokeDasharray="3" />
+            <line x1="40" y1="80" x2="820" y2="80" stroke="#1A1A1A" strokeDasharray="3" />
+            <line x1="40" y1="130" x2="820" y2="130" stroke="#1A1A1A" strokeDasharray="3" />
+            <line x1="40" y1="180" x2="820" y2="180" stroke="#1A1A1A" strokeDasharray="3" />
+            <line x1="40" y1="220" x2="820" y2="220" stroke="#262626" />
 
             {/* Y-axis labels */}
-            <text x="10" y="34" fill="#64748b" fontSize="10" fontFamily="monospace">400</text>
-            <text x="10" y="84" fill="#64748b" fontSize="10" fontFamily="monospace">300</text>
-            <text x="10" y="134" fill="#64748b" fontSize="10" fontFamily="monospace">200</text>
-            <text x="10" y="184" fill="#64748b" fontSize="10" fontFamily="monospace">100</text>
-            <text x="25" y="224" fill="#64748b" fontSize="10" fontFamily="monospace">0</text>
+            <text x="10" y="34" fill="#71717A" fontSize="10" fontFamily="monospace">400</text>
+            <text x="10" y="84" fill="#71717A" fontSize="10" fontFamily="monospace">300</text>
+            <text x="10" y="134" fill="#71717A" fontSize="10" fontFamily="monospace">200</text>
+            <text x="10" y="184" fill="#71717A" fontSize="10" fontFamily="monospace">100</text>
+            <text x="25" y="224" fill="#71717A" fontSize="10" fontFamily="monospace">0</text>
 
             {/* Bars for Rainfall */}
             {MONTHLY_METRICS.map((m, idx) => {
@@ -193,7 +197,7 @@ export default function AnalyticsPage() {
                   <text
                     x={x}
                     y="240"
-                    fill="#94a3b8"
+                    fill="#A1A1AA"
                     fontSize="11"
                     fontFamily="monospace"
                     textAnchor="middle"
@@ -227,7 +231,7 @@ export default function AnalyticsPage() {
                   cy={y}
                   r="4"
                   fill="#ef4444"
-                  stroke="#0f172a"
+                  stroke="#050505"
                   strokeWidth="2"
                 />
               );
@@ -237,26 +241,26 @@ export default function AnalyticsPage() {
       </div>
 
       {/* District Vulnerability Matrix Table */}
-      <div className="p-6 rounded-2xl glass-panel border border-slate-800 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+      <div className="p-6 rounded-2xl glass-panel border border-dark-border space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-dark-border pb-3">
           <div>
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <h3 className="text-base font-bold text-white flex items-center gap-2 font-display">
               <Layers className="w-4 h-4 text-cyan-400" />
               <span>High-Risk District Vulnerability Ranking Matrix</span>
             </h3>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-dark-muted mt-0.5">
               Geotechnical slope instability index classified under National Landslide Susceptibility Mapping (NLSM)
             </p>
           </div>
 
           <div className="relative">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-dark-muted absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search district or state..."
               value={matrixSearch}
               onChange={(e) => setMatrixSearch(e.target.value)}
-              className="pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+              className="pl-8 pr-3 py-1.5 bg-dark-bg border border-dark-border rounded-lg text-xs text-white placeholder-dark-muted focus:outline-none focus:border-cyan-400 font-mono"
             />
           </div>
         </div>
@@ -265,7 +269,7 @@ export default function AnalyticsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
             <thead>
-              <tr className="border-b border-slate-800 text-slate-400 uppercase text-[10px]">
+              <tr className="border-b border-dark-border text-dark-muted uppercase text-[10px]">
                 <th className="py-2.5 px-3">District & State</th>
                 <th className="py-2.5 px-3">Vulnerability Index</th>
                 <th className="py-2.5 px-3">Primary Bedrock Geology</th>
@@ -275,33 +279,33 @@ export default function AnalyticsPage() {
                 <th className="py-2.5 px-3 text-right">Hazard Zone</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-dark-border/60">
               {filteredMatrix.map((row, idx) => (
-                <tr key={idx} className="hover:bg-slate-900/50 transition-colors">
-                  <td className="py-3 px-3 font-sans font-bold text-white">
+                <tr key={idx} className="hover:bg-dark-card/60 transition-colors">
+                  <td className="py-3.5 px-3 font-sans font-bold text-white">
                     {row.district}
-                    <span className="block text-[11px] font-mono text-slate-400 font-normal">
+                    <span className="block text-[11px] font-mono text-dark-muted font-normal">
                       {row.state}
                     </span>
                   </td>
-                  <td className="py-3 px-3 text-rose-400 font-bold">
+                  <td className="py-3.5 px-3 text-rose-400 font-bold">
                     {row.vulnerabilityIndex}
                   </td>
-                  <td className="py-3 px-3 text-slate-300">
+                  <td className="py-3.5 px-3 text-slate-300">
                     {row.primaryGeology}
                   </td>
-                  <td className="py-3 px-3 text-amber-400 font-bold">
+                  <td className="py-3.5 px-3 text-amber-400 font-bold">
                     {row.slopeAngleAvg}
                   </td>
-                  <td className="py-3 px-3 text-cyan-400 font-bold">
+                  <td className="py-3.5 px-3 text-cyan-400 font-bold">
                     {row.monsoonRainfallAvg}
                   </td>
-                  <td className="py-3 px-3 text-slate-300">
+                  <td className="py-3.5 px-3 text-slate-300">
                     {row.installedSensors} Nodes
                   </td>
-                  <td className="py-3 px-3 text-right">
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                      row.status === 'RED ZONE' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/40' :
+                  <td className="py-3.5 px-3 text-right">
+                    <span className={`px-2.5 py-0.5 rounded text-[10px] font-bold font-mono ${
+                      row.status === 'RED ZONE' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/40 shadow-[0_0_8px_rgba(239,68,68,0.4)]' :
                       row.status === 'ORANGE ZONE' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/40' :
                       'bg-amber-500/20 text-amber-400 border border-amber-500/40'
                     }`}>
@@ -316,20 +320,20 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Historical Landslide Disaster Records & Mitigation Lessons */}
-      <div className="p-6 rounded-2xl glass-panel border border-slate-800 space-y-4">
-        <div className="border-b border-slate-800 pb-3">
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
+      <div className="p-6 rounded-2xl glass-panel border border-dark-border space-y-4">
+        <div className="border-b border-dark-border pb-3">
+          <h3 className="text-base font-bold text-white flex items-center gap-2 font-display">
             <Activity className="w-4 h-4 text-rose-400" />
             <span>Historical Catastrophic Landslide Records in India (Audit Benchmark)</span>
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-dark-muted mt-0.5">
             Key disaster events that formulated LandslideGuard AI's multi-factor threshold algorithms
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {HISTORICAL_DISASTER_RECORDS.map((rec) => (
-            <div key={rec.id} className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2 text-left">
+            <div key={rec.id} className="p-4 rounded-xl bg-dark-bg border border-dark-border space-y-2 text-left">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800">
                   {rec.year} • {rec.state}
@@ -338,11 +342,11 @@ export default function AnalyticsPage() {
                   {rec.fatalitiesReported} Reported Fatalities
                 </span>
               </div>
-              <h4 className="text-sm font-bold text-white">{rec.event}</h4>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                <strong>Trigger:</strong> {rec.cause}
+              <h4 className="text-sm font-bold text-white font-display">{rec.event}</h4>
+              <p className="text-xs text-dark-muted leading-relaxed">
+                <strong className="text-slate-300">Trigger:</strong> {rec.cause}
               </p>
-              <div className="pt-1 border-t border-slate-800/80 text-[11px] font-mono text-emerald-400">
+              <div className="pt-1.5 border-t border-dark-border text-[11px] font-mono text-emerald-400">
                 <strong>Mitigation Lesson Learned:</strong> {rec.mitigationLessons}
               </div>
             </div>
