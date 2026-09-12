@@ -5,6 +5,7 @@ import RiskBadge from '../components/common/RiskBadge';
 import LiveWeatherCard from '../components/common/LiveWeatherCard';
 import { fetchLiveWeatherData } from '../utils/weatherApi';
 import { calculateLandslideRisk } from '../utils/riskEngine';
+import { useLandslideContext } from '../context/LandslideContext';
 import { 
   Search, 
   Filter, 
@@ -28,6 +29,7 @@ import {
 } from 'lucide-react';
 
 export default function MapPage({ onOpenEmergencyModal }) {
+  const { updateActiveLocation } = useLandslideContext();
   const [locations, setLocations] = useState(LOCATIONS_DATA);
   const [selectedLocation, setSelectedLocation] = useState(LOCATIONS_DATA[0]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -81,6 +83,13 @@ export default function MapPage({ onOpenEmergencyModal }) {
       history: selectedLocation.riskLevel === 'CRITICAL' ? 'high' : (selectedLocation.riskLevel === 'HIGH' ? 'moderate' : 'low')
     });
   }, [selectedLocation, liveWeather]);
+
+  // Synchronize with LandslideContext for AI Assistant awareness
+  useEffect(() => {
+    if (selectedLocation) {
+      updateActiveLocation(selectedLocation, liveWeather, liveRisk);
+    }
+  }, [selectedLocation, liveWeather, liveRisk, updateActiveLocation]);
 
   // Computed counts
   const riskCounts = useMemo(() => {

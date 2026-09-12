@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import EmergencyModal from './components/common/EmergencyModal';
+import AIChatbot from './components/AIChatbot/AIChatbot';
+import { LandslideProvider } from './context/LandslideContext';
 
 // Pages
 import LandingPage from './pages/LandingPage';
@@ -112,31 +114,37 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#070b14] text-slate-100 antialiased selection:bg-cyan-500 selection:text-white">
-      {/* Top Fixed / Sticky Navigation Bar */}
-      <Navbar 
-        activePage={activePage} 
-        setActivePage={setActivePage} 
-        onOpenEmergencyModal={() => handleOpenEmergencyModal(null)}
-        currentLang={currentLang}
-        onToggleLang={handleToggleLang}
-      />
+    <LandslideProvider activePage={activePage}>
+      <div className="min-h-screen flex flex-col bg-[#070b14] text-slate-100 antialiased selection:bg-cyan-500 selection:text-white relative">
+        {/* Top Fixed / Sticky Navigation Bar */}
+        <Navbar 
+          activePage={activePage} 
+          setActivePage={setActivePage} 
+          onOpenEmergencyModal={() => handleOpenEmergencyModal(null)}
+          currentLang={currentLang}
+          onToggleLang={handleToggleLang}
+        />
 
-      {/* Main Content Area */}
-      <main className="flex-1 w-full">
-        {renderActivePage()}
-      </main>
+        {/* Main Content Area */}
+        <main className="flex-1 w-full">
+          {renderActivePage()}
+        </main>
 
-      {/* Standard Footer */}
-      <Footer setActivePage={setActivePage} currentLang={currentLang} />
+        {/* Standard Footer */}
+        <Footer setActivePage={setActivePage} currentLang={currentLang} />
 
-      {/* Global Emergency Command Dispatch Modal */}
-      <EmergencyModal 
-        isOpen={emergencyModalOpen} 
-        onClose={handleCloseEmergencyModal} 
-        alertData={modalAlertData}
-        currentLang={currentLang}
-      />
-    </div>
+        {/* Global Emergency Command Dispatch Modal */}
+        <EmergencyModal 
+          isOpen={emergencyModalOpen} 
+          onClose={handleCloseEmergencyModal} 
+          alertData={modalAlertData}
+          currentLang={currentLang}
+        />
+
+        {/* Premium LandslideGuard AI Assistant Floating Widget */}
+        <AIChatbot />
+      </div>
+    </LandslideProvider>
   );
 }
+

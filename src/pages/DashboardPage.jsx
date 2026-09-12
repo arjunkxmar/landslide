@@ -26,8 +26,10 @@ import RiskGauge from '../components/common/RiskGauge';
 import { ACTIVE_ALERTS } from '../data/alertData';
 import { LOCATIONS_DATA } from '../data/locationsData';
 import { soundManager } from '../utils/soundEffects';
+import { useLandslideContext } from '../context/LandslideContext';
 
 export default function DashboardPage({ onOpenEmergencyModal, setActivePage }) {
+  const { updateDashboardTelemetry } = useLandslideContext();
   // Live Streaming state
   const [isLiveStreaming, setIsLiveStreaming] = useState(true);
   const [pulseTick, setPulseTick] = useState(0);
@@ -87,6 +89,13 @@ export default function DashboardPage({ onOpenEmergencyModal, setActivePage }) {
 
     return () => clearInterval(interval);
   }, [isLiveStreaming]);
+
+  // Synchronize telemetry with LandslideContext
+  useEffect(() => {
+    if (telemetry) {
+      updateDashboardTelemetry(telemetry);
+    }
+  }, [telemetry, updateDashboardTelemetry]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
