@@ -134,7 +134,7 @@ function generateContextualFallback({ message, context }) {
   const isHinglish = q.includes('kyu') || q.includes('kya') || q.includes('kare') || q.includes('yaha') || q.includes('khatra') || q.includes('hai');
 
   // Question 1: Risk / Score Explanation
-  if (q.includes('risk') || q.includes('khatra') || q.includes('score') || q.includes('explain current risk')) {
+  if (q.includes('risk') || q.includes('khatra') || q.includes('score') || q.includes('explain current risk') || q.includes('contributing factors')) {
     if (isHinglish) {
       return `**${loc}** me current hazard risk score **${score}/100** (**${level} RISK**) hai.\n\n` +
         `Yaha risk isliye elevated hai kyunki:\n` +
