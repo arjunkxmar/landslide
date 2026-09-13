@@ -7,8 +7,12 @@
  */
 
 const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
-const DEFAULT_MODEL = 'gemini-1.5-flash';
-const FALLBACK_MODEL = 'gemini-2.0-flash';
+const CANDIDATE_MODELS = [
+  'gemini-3.6-flash',
+  'gemini-3.8-flash',
+  'gemini-3.5-flash-lite',
+  'gemini-2.5-flash'
+];
 
 const SYSTEM_INSTRUCTION = `You are LandslideGuard AI Assistant, an AI assistant integrated into a landslide risk monitoring and geospatial intelligence application (LandslideGuard AI).
 
@@ -292,7 +296,11 @@ export async function generateGeminiChatResponse({ message, context = {}, histor
       }
 
       const candidate = data.candidates?.[0];
-      const text = candidate?.content?.parts?.[0]?.text;
+      const textParts = (candidate?.content?.parts || [])
+        .filter(p => p && p.text && !p.thought)
+        .map(p => p.text)
+        .join('');
+      const text = textParts || candidate?.content?.parts?.[0]?.text;
 
       if (!text) {
         throw new Error('Gemini API returned an empty response.');
@@ -305,31 +313,24 @@ export async function generateGeminiChatResponse({ message, context = {}, histor
     }
   }
 
-  try {
-    const replyText = await callModel(DEFAULT_MODEL);
-    return {
-      success: true,
-      reply: replyText
-    };
-  } catch (primaryErr) {
-    console.warn(`Primary Gemini model (${DEFAULT_MODEL}) failed:`, primaryErr.message);
-    
-    // Attempt fallback model
+  // Iterate candidate models until one succeeds
+  for (const model of CANDIDATE_MODELS) {
     try {
-      const fallbackReply = await callModel(FALLBACK_MODEL);
+      const replyText = await callModel(model);
       return {
         success: true,
-        reply: fallbackReply
+        reply: replyText
       };
-    } catch (fallbackErr) {
-      console.warn('Gemini API failed, using telemetry engine fallback:', fallbackErr.message);
-
-      // Return context-aware fallback so user always gets accurate data
-      const fallbackReply = generateContextualFallback({ message, context });
-      return {
-        success: true,
-        reply: fallbackReply
-      };
+    } catch (modelErr) {
+      console.warn(`Gemini model (${model}) failed:`, modelErr.message);
     }
   }
+
+  // Fallback to local contextual telemetry engine if all Gemini models fail or rate limit
+  console.warn('All Gemini models failed, falling back to telemetry engine.');
+  const fallbackReply = generateContextualFallback({ message, context });
+  return {
+    success: true,
+    reply: fallbackReply
+  };
 }
